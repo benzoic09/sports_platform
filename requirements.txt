@@ -1,0 +1,4 @@
+Django
+Pillow
+qrcode
+psycopg2-binary
