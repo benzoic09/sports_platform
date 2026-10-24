@@ -1,0 +1,23 @@
+<h1>{{ event.title }}</h1>
+
+<p>{{ event.venue }}</p>
+
+<p>{{ event.event_date }}</p>
+
+<p>{{ event.event_time }}</p>
+
+<h2>Available Tickets</h2>
+
+<ul>
+{% for ticket in event.ticket_types.all %}
+    <li>
+        {{ ticket.name }}
+        - KES {{ ticket.price }}
+        ({{ ticket.available_quantity }} left)
+
+        <a href="/buy-ticket/{{ ticket.id }}/">
+            Buy Ticket
+        </a>
+    </li>
+{% endfor %}
+</ul>

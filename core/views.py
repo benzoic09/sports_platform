@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,  get_object_or_404
+from ticketing.models import TicketType
+from sports.models import Sport
+from events.models import Event
 
 def home(request):
     return render(request, "core/home.html")
@@ -23,4 +26,34 @@ def event_list(request, sport_id):
         request,
         'core/event_list.html',
         {'events': events}
+    )
+
+def event_detail(request, event_id):
+
+    event = get_object_or_404(
+        Event,
+        id=event_id
+    )
+
+    return render(
+        request,
+        'core/event_detail.html',
+        {'event': event}
+    )
+
+def buy_ticket(request, ticket_type_id):
+
+    ticket_type = get_object_or_404(
+        TicketType,
+        id=ticket_type_id
+    )
+
+    ticket = ticket_type.purchase_ticket(
+        request.user
+    )
+
+    return render(
+        request,
+        'core/ticket_success.html',
+        {'ticket': ticket}
     )
