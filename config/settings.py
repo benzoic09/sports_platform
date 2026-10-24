@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'sports',
     'events',
     'ticketing',
+    'core',
 ]
 
 MIDDLEWARE = [
