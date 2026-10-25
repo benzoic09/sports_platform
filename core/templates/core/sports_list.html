@@ -1,7 +1,9 @@
+<h2>Sports</h2>
+
 <ul>
 {% for sport in sports %}
     <li>
-        /sports/{{ sport.id }}/events/
+        <a href="/sports/{{ sport.id }}/events/">
             {{ sport.name }}
         </a>
     </li>
