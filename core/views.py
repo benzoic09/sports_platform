@@ -1,4 +1,5 @@
 from django.shortcuts import render,  get_object_or_404
+from django.contrib.auth.decorators import login_required
 from ticketing.models import TicketType
 from sports.models import Sport
 from events.models import Event
@@ -41,6 +42,7 @@ def event_detail(request, event_id):
         {'event': event}
     )
 
+@login_required
 def buy_ticket(request, ticket_type_id):
 
     ticket_type = get_object_or_404(

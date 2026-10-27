@@ -1,5 +1,26 @@
 <h1>Sports Ticketing Platform</h1>
 
-<p>Purchase tickets for sporting events.</p>
+{% if user.is_authenticated %}
+    <p>Welcome {{ user.username }}</p>
 
-<a href="/sports/">Browse Sports</a>
+    <a href="/accounts/logout/">
+        Logout
+    </a>
+
+{% else %}
+    <a href="/accounts/login/">
+        Login
+    </a>
+
+    <br>
+
+    <a href="/accounts/register/">
+        Register
+    </a>
+{% endif %}
+
+<br><br>
+
+<a href="/sports/">
+    Browse Sports
+</a>
