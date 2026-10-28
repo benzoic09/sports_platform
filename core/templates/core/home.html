@@ -1,26 +1,24 @@
-<h1>Sports Ticketing Platform</h1>
+{% extends 'core/base.html' %}
 
-{% if user.is_authenticated %}
-    <p>Welcome {{ user.username }}</p>
+{% block content %}
 
-    <a href="/accounts/logout/">
-        Logout
-    </a>
+<div class="p-5 bg-light rounded">
 
-{% else %}
-    <a href="/accounts/login/">
-        Login
-    </a>
+    <h1>Sports-Centric Ticketing Platform</h1>
 
-    <br>
+    <p>
+        Purchase tickets for Football,
+        Rugby, Basketball, Hockey and
+        Lawn Tennis events.
+    </p>
 
-    <a href="/accounts/register/">
-        Register
-    </a>
-{% endif %}
 
-<br><br>
-
-<a href="/sports/">
+       <a href="/sports/">
     Browse Sports
 </a>
+
+    </a>
+
+</div>
+
+{% endblock %}
