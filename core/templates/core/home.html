@@ -1,47 +1,46 @@
 {% extends 'core/base.html' %}
 
-{% block content %}
+{% block hero %}
+<section class="stadium-bg text-white flex-grow-1 d-flex flex-column" style="padding-top: 110px;">
 
-<!-- Welcome banner -->
-<div class="p-5 mb-4 bg-primary text-white rounded text-center">
-    <h1>Sports-Centric Ticketing Platform</h1>
-    <p class="lead">
-        Buy tickets for Football, Rugby, Basketball, Hockey and Lawn Tennis events.
-    </p>
-    <a href="/sports/" class="btn btn-warning btn-lg">Browse Sports</a>
-</div>
-
-<!-- Sports -->
-<h2 class="h4 mb-3">Sports</h2>
-<div class="row g-3 mb-5">
-    {% for sport in sports %}
-    <div class="col-6 col-md-3">
-        <a href="/sports/{{ sport.id }}/" class="btn btn-outline-primary w-100 py-3">
-            {{ sport }}
+    <!-- Welcome text -->
+    <div class="container mb-4">
+        <p class="fst-italic mb-2">Every match. Every ticket.</p>
+        <h1 class="display-4 fw-bold text-uppercase">
+            Your next match<br>starts here.
+        </h1>
+        <p class="lead col-lg-6 my-3">
+            Buy tickets for Football, Rugby, Basketball, Hockey and Lawn Tennis events,
+            and pay securely with M-Pesa.
+        </p>
+        <a href="/sports/" class="btn btn-info btn-lg rounded-pill px-4 text-white">
+            Browse Sports
         </a>
     </div>
-    {% empty %}
-    <p class="text-muted">No sports added yet.</p>
-    {% endfor %}
-</div>
 
-<!-- Events -->
-<h2 class="h4 mb-3">Upcoming Events</h2>
-<div class="row g-3 mb-5">
-    {% for event in events %}
-    <div class="col-12 col-md-4">
-        <div class="card h-100 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">{{ event }}</h5>
-                <a href="/events/{{ event.id }}/" class="btn btn-primary btn-sm">
-                    View Tickets
-                </a>
+    <!-- Events pinned to the bottom of the hero -->
+    <div class="container mt-auto pb-4">
+        <h2 class="h5 mb-3">Upcoming Events</h2>
+        <div class="row g-3">
+            {% for event in events %}
+            <div class="col-6 col-md-3">
+                <div class="card h-100 shadow">
+                    <div class="card-body py-3">
+                        <h6 class="card-title mb-1">{{ event }}</h6>
+                        <p class="card-text text-muted small mb-2">{{ event.venue }}</p>
+                        <a href="/events/{{ event.id }}/" class="btn btn-primary btn-sm">View Tickets</a>
+                    </div>
+                </div>
             </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-light mb-0">No events yet. Add some in the admin panel.</div>
+            </div>
+            {% endfor %}
         </div>
     </div>
-    {% empty %}
-    <p class="text-muted">No events yet.</p>
-    {% endfor %}
-</div>
 
+</section>
 {% endblock %}
+
+{% block page %}{% endblock %}

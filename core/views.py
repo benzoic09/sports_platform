@@ -5,7 +5,9 @@ from sports.models import Sport
 from events.models import Event
 
 def home(request):
-    return render(request, "core/home.html")
+    events = Event.objects.all()[:4]
+
+    return render(request, "core/home.html", {"events": events})
 
 
 def sports_list(request):

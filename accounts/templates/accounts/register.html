@@ -1,4 +1,75 @@
-<h1>Register</h1>
+{% extends 'core/base.html' %}
+
+{% block title %}Register | SportsHub{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+
+                <h2 class="text-center mb-4">Create Account</h2>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                    {% endif %}
+
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text|safe }}</div>
+                        {% endif %}
+
+                        {% for error in field.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </form>
+
+                <p class="text-center mt-3 mb-0">
+                    Already have an account? <a href="/accounts/login/">Login</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Give every input Bootstrap's styling
+    document.querySelectorAll("form input:not([type=hidden])").forEach(function (box) {
+        box.classList.add("form-control");
+    });
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <h1>Register</h1>
 
 <form method="post">
     {% csrf_token %}
@@ -8,4 +79,4 @@
     <button type="submit">
         Register
     </button>
-</form>
+</form> -->
