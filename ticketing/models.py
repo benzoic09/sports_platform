@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from events.models import Event
+from django.utils import timezone
 import uuid
 
 
@@ -22,6 +23,7 @@ class TicketType(models.Model):
 
     available_quantity = models.PositiveIntegerField()
 
+    
     def purchase_ticket(self, user):
 
         if self.available_quantity <= 0:
@@ -37,6 +39,7 @@ class TicketType(models.Model):
 
         return ticket
 
+    
     def __str__(self):
         return f"{self.event.title} - {self.name}"
 
