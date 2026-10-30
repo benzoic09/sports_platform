@@ -1,11 +1,62 @@
-<h2>Sports</h2>
+{% extends 'core/base.html' %}
 
-<ul>
-{% for sport in sports %}
-    <li>
-        <a href="/sports/{{ sport.id }}/events/">
-            {{ sport.name }}
-        </a>
-    </li>
-{% endfor %}
-</ul>
+{% block title %}Sports | SportsHub{% endblock %}
+
+{% block extra_head %}
+<style>
+    .sport-card { border-radius: 12px; }
+    .sport-card img,
+    .sport-placeholder {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+    .sport-placeholder { background: linear-gradient(135deg, #0a2846, #0dcaf0); }
+    .sport-card:hover img,
+    .sport-card:hover .sport-placeholder { transform: scale(1.08); }
+    .sport-overlay { background: linear-gradient(transparent 40%, rgba(5, 30, 60, 0.9)); }
+</style>
+{% endblock %}
+
+{% block hero %}
+<section class="stadium-bg text-white flex-grow-1" style="padding: 110px 0 50px;">
+    <div class="container">
+
+        <div class="text-center mb-4">
+            <h1 class="h2">Sports We Support</h1>
+            <p class="text-white-50">Pick a sport to see its upcoming events.</p>
+        </div>
+
+        <div class="row g-4">
+            {% for sport in sports %}
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card sport-card text-white border-0 shadow overflow-hidden">
+
+                    {% if sport.image %}
+                        <img src="{{ sport.image.url }}" alt="{{ sport.name }}">
+                    {% else %}
+                        <div class="sport-placeholder"></div>
+                    {% endif %}
+
+                    <div class="card-img-overlay sport-overlay d-flex flex-column justify-content-end">
+                        <h3 class="h4 mb-0">
+                            <a href="/sports/{{ sport.id }}/events/" class="text-white text-decoration-none stretched-link">
+                                {{ sport.name }}
+                            </a>
+                        </h3>
+                        <small>View events &rarr;</small>
+                    </div>
+
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center text-white-50">No sports added yet. Add some in the admin panel.</p>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+{% endblock %}
+
+{% block page %}{% endblock %}

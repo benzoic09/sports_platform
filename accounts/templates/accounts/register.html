@@ -2,81 +2,59 @@
 
 {% block title %}Register | SportsHub{% endblock %}
 
-{% block content %}
+{% block hero %}
+<section class="stadium-bg flex-grow-1 d-flex align-items-center" style="padding: 100px 0 40px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-5">
 
-<div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-        <div class="card shadow-sm">
-            <div class="card-body p-4">
+                <div class="card bg-dark bg-opacity-75 text-white border-0 shadow">
+                    <div class="card-body p-4">
 
-                <h2 class="text-center mb-4">Create Account</h2>
+                        <h2 class="text-center mb-4">Create Account</h2>
 
-                <form method="post">
-                    {% csrf_token %}
+                        <form method="post">
+                            {% csrf_token %}
 
-                    {% if form.non_field_errors %}
-                        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
-                    {% endif %}
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                            {% endif %}
 
-                    {% for field in form %}
-                    <div class="mb-3">
-                        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {{ field }}
+                            {% for field in form %}
+                            <div class="mb-3">
+                                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
 
-                        {% if field.help_text %}
-                            <div class="form-text">{{ field.help_text|safe }}</div>
-                        {% endif %}
+                                {% if field.help_text %}
+                                    <div class="form-text text-white-50 small">{{ field.help_text|safe }}</div>
+                                {% endif %}
 
-                        {% for error in field.errors %}
-                            <div class="text-danger small">{{ error }}</div>
-                        {% endfor %}
+                                {% for error in field.errors %}
+                                    <div class="text-warning small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+
+                            <button type="submit" class="btn btn-info text-white rounded-pill w-100">Register</button>
+                        </form>
+
+                        <p class="text-center mt-3 mb-0">
+                            Already have an account? <a class="text-info" href="/accounts/login/">Login</a>
+                        </p>
+
                     </div>
-                    {% endfor %}
-
-                    <button type="submit" class="btn btn-primary w-100">Register</button>
-                </form>
-
-                <p class="text-center mt-3 mb-0">
-                    Already have an account? <a href="/accounts/login/">Login</a>
-                </p>
+                </div>
 
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <script>
-    // Give every input Bootstrap's styling
     document.querySelectorAll("form input:not([type=hidden])").forEach(function (box) {
         box.classList.add("form-control");
     });
 </script>
-
 {% endblock %}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <h1>Register</h1>
-
-<form method="post">
-    {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <button type="submit">
-        Register
-    </button>
-</form> -->
+{% block page %}{% endblock %}
