@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %}
+
+{% block title %}My Tickets | SportsHub{% endblock %}
+
+{% block hero %}
+<section class="stadium-bg text-white flex-grow-1" style="padding: 110px 0 50px;">
+    <div class="container">
+
+        <div class="text-center mb-4">
+            <h1 class="h2">My Tickets</h1>
+            <p class="text-white-50">Everything you've bought, newest first.</p>
+        </div>
+
+        <div class="row g-3 justify-content-center">
+            {% for ticket in tickets %}
+            {% with event=ticket.ticket_type.event %}
+            <div class="col-12 col-lg-8">
+                <div class="card shadow border-0 text-dark">
+                    <div class="card-body d-flex align-items-center">
+
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1">{{ event.title }}</h5>
+                            <p class="mb-1 text-muted small">
+                                {{ event.venue }} &bull; {{ event.event_date|date:"j M Y" }}, {{ event.event_time|time:"g:i A" }}
+                            </p>
+                            <span class="badge bg-info text-white">{{ ticket.ticket_type.name }}</span>
+
+                            {% if ticket.status == 'USED' %}
+                                <span class="badge bg-secondary">Used</span>
+                            {% elif ticket.status == 'CANCELLED' %}
+                                <span class="badge bg-danger">Cancelled</span>
+                            {% elif event.event_date < today %}
+                                <span class="badge bg-secondary">Event ended</span>
+                            {% else %}
+                                <span class="badge bg-success">Active</span>
+                            {% endif %}
+                        </div>
+
+                        <a href="/tickets/{{ ticket.ticket_code }}/" class="btn btn-primary btn-sm rounded-pill ms-3">
+                            View QR
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            {% endwith %}
+            {% empty %}
+            <div class="col-12 col-lg-8">
+                <div class="alert alert-light text-center">
+                    You haven't bought any tickets yet.
+                    <a href="/sports/" class="alert-link">Browse sports</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+{% endblock %}
+
+{% block page %}{% endblock %}

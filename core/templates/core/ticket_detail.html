@@ -1,0 +1,90 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Your Ticket | SportsHub{% endblock %}
+
+{% block hero %}
+<section class="stadium-bg flex-grow-1" style="padding: 100px 0 40px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-5">
+
+                {% include 'core/_messages.html' %}
+
+                {% with event=ticket.ticket_type.event %}
+                <div class="card border-0 shadow overflow-hidden">
+
+                    <!-- Ticket header -->
+                    <div class="bg-dark text-white text-center py-3 px-3">
+                        <small class="text-info text-uppercase">SportsHub e-ticket</small>
+                        <h1 class="h4 mb-0">{{ event.title }}</h1>
+                    </div>
+
+                    <!-- QR code -->
+                    <div class="card-body text-center">
+                        <img src="data:image/png;base64,{{ qr_code }}" alt="Ticket QR code"
+                             class="img-fluid" style="max-width: 220px;">
+                        <p class="text-muted small mt-2 mb-0">Show this QR code at the gate</p>
+                    </div>
+
+                    <!-- Tear-off line -->
+                    <div style="border-top: 2px dashed #adb5bd;"></div>
+
+                    <!-- Details -->
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-5 text-muted">Venue</div>
+                            <div class="col-7 fw-semibold">{{ event.venue }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 text-muted">Date</div>
+                            <div class="col-7 fw-semibold">{{ event.event_date|date:"D, j M Y" }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 text-muted">Time</div>
+                            <div class="col-7 fw-semibold">{{ event.event_time|time:"g:i A" }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 text-muted">Ticket</div>
+                            <div class="col-7 fw-semibold">{{ ticket.ticket_type.name }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 text-muted">Price</div>
+                            <div class="col-7 fw-semibold">KES {{ ticket.ticket_type.price|floatformat:0 }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 text-muted">Status</div>
+                            <div class="col-7">
+                                {% if ticket.status == 'ACTIVE' %}
+                                    <span class="badge bg-success">Active</span>
+                                {% elif ticket.status == 'USED' %}
+                                    <span class="badge bg-secondary">Used</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Cancelled</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 text-muted">Bought</div>
+                            <div class="col-7">{{ ticket.purchased_at|date:"j M Y, g:i A" }}</div>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">Ticket code</small><br>
+                            <code class="small">{{ ticket.ticket_code }}</code>
+                        </div>
+                    </div>
+
+                </div>
+                {% endwith %}
+
+                <div class="d-flex gap-2 mt-3">
+                    <a href="/my-tickets/" class="btn btn-info text-white rounded-pill flex-fill">My Tickets</a>
+                    <a href="/" class="btn btn-outline-light rounded-pill flex-fill">Home</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block page %}{% endblock %}
