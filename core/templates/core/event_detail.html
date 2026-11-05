@@ -71,13 +71,11 @@
                             <button class="btn btn-secondary rounded-pill" disabled>Sold Out</button>
 
                         {% elif user.is_authenticated %}
-                            <form action="/buy-ticket/{{ ticket.id }}/" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-info text-white rounded-pill">Buy Ticket</button>
-                            </form>
+                            <a href="/events/{{ event.id }}/buy/?ticket_type={{ ticket.id }}"
+                            class="btn btn-info text-white rounded-pill">Buy Ticket</a>
 
                         {% else %}
-                            <a href="/accounts/login/?next=/events/{{ event.id }}/" class="btn btn-info text-white rounded-pill">
+                            <a href="/accounts/login/?next=/events/{{ event.id }}/buy/?ticket_type={{ ticket.id }}/" class="btn btn-info text-white rounded-pill">
                                 Login to Buy
                             </a>
                         {% endif %}

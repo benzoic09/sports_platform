@@ -1,7 +1,7 @@
-from django.db import models
+from django.db import models, transaction
 from django.conf import settings
-from events.models import Event
 from django.utils import timezone
+from events.models import Event
 import uuid
 
 
@@ -23,25 +23,40 @@ class TicketType(models.Model):
 
     available_quantity = models.PositiveIntegerField()
 
-    
-    def purchase_ticket(self, user):
+    def purchase_tickets(self, user, quantity):
 
-        if self.available_quantity <= 0:
-            raise ValueError("Tickets sold out")
+        if quantity < 1:
+            raise ValueError("Please choose at least 1 ticket.")
 
-        ticket = Ticket.objects.create(
-            user=user,
-            ticket_type=self
-        )
+        if quantity > 10:
+            raise ValueError("You can buy a maximum of 10 tickets at a time.")
 
-        self.available_quantity -= 1
-        self.save()
+        with transaction.atomic():
+            # Lock this row so two buyers can't take the last tickets together
+            ticket_type = TicketType.objects.select_for_update().get(pk=self.pk)
 
-        return ticket
+            if ticket_type.event.event_date < timezone.localdate():
+                raise ValueError("This event has already taken place.")
 
-    
+            if ticket_type.available_quantity == 0:
+                raise ValueError("Sorry, these tickets are sold out.")
+
+            if ticket_type.available_quantity < quantity:
+                raise ValueError(f"Only {ticket_type.available_quantity} tickets left.")
+
+            tickets = [
+                Ticket.objects.create(user=user, ticket_type=ticket_type)
+                for _ in range(quantity)
+            ]
+
+            ticket_type.available_quantity -= quantity
+            ticket_type.save()
+
+        return tickets
+
     def __str__(self):
         return f"{self.event.title} - {self.name}"
+
 
 class Ticket(models.Model):
 
@@ -68,17 +83,18 @@ class Ticket(models.Model):
     is_used = models.BooleanField(
         default=False
     )
+
     STATUS_CHOICES = [
-    ('ACTIVE', 'Active'),
-    ('USED', 'Used'),
-    ('CANCELLED', 'Cancelled'),
-]
+        ('ACTIVE', 'Active'),
+        ('USED', 'Used'),
+        ('CANCELLED', 'Cancelled'),
+    ]
 
     status = models.CharField(
-    max_length=10,
-    choices=STATUS_CHOICES,
-    default='ACTIVE'
-)
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='ACTIVE'
+    )
 
     def __str__(self):
         return str(self.ticket_code)

@@ -6,7 +6,24 @@
 <section class="stadium-bg text-white flex-grow-1" style="padding: 110px 0 50px;">
     <div class="container">
 
+        {% include 'core/_messages.html' %}
         <div class="text-center mb-4">
+            <form method="get" class="row g-2 justify-content-center mb-3">
+    <div class="col-12 col-md-6 col-lg-5">
+        <input type="search" name="q" value="{{ query }}" class="form-control"
+               placeholder="Search by event, sport or ticket type">
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-info text-white rounded-pill px-4">Search</button>
+        {% if query %}
+            <a href="/my-tickets/" class="btn btn-outline-light rounded-pill">Clear</a>
+        {% endif %}
+    </div>
+    </form>
+
+<p class="text-center text-white-50 mb-4">
+    {{ tickets|length }} ticket{{ tickets|length|pluralize }} &bull; KES {{ total_spent|floatformat:0 }} spent
+</p>
             <h1 class="h2">My Tickets</h1>
             <p class="text-white-50">Everything you've bought, newest first.</p>
         </div>
